@@ -1,0 +1,14 @@
+const int N = 2e6 + 9;
+int spf[N]; // smallest prime factor
+
+void sieve() {
+    spf[0] = spf[1] = 1;
+    for(int i = 2; i < N; i++) spf[i] = i;
+    for (int i = 2; i <= N / i; i++) {
+        if (spf[i] == i) {
+            for (int j = i * i; j < N; j += i) {
+                if (spf[j] == j) spf[j] = i;
+            }
+        }
+    }
+}
