@@ -16,6 +16,11 @@ void solve() {
     cin >> n;
     for (int i = 1; i <= n; i++) cin >> a[i];
     build();
+    int q; cin >> q;
+    while (q--) {
+        int l, r; cin >> l >> r; ++l, ++r;
+        cout << query(l, r) << "\n";
+    }
 }
 
 int main() {
@@ -27,7 +32,8 @@ int main() {
 void build(int p, int l, int r) {
     if (l == r) return void(tree[p] = a[l]);
     int m = l + r >> 1;
-    tree[p] = max(tree[p << 1], tree[p << 1 | 1]);
+    build(p << 1, l, m); build(p << 1 | 1, m + 1, r);
+    tree[p] = min(tree[p << 1], tree[p << 1 | 1]);
 }
 
 void update(int i, int val, int p, int l, int r) {
@@ -35,12 +41,12 @@ void update(int i, int val, int p, int l, int r) {
     int m = l + r >> 1;
     if (i <= m) update(i, val, p << 1, l, m);
     else update(i, val, p << 1 | 1, m + 1, r);
-    tree[p] = max(tree[p << 1], tree[p << 1 | 1]);
+    tree[p] = min(tree[p << 1], tree[p << 1 | 1]);
 }
 
 int query(int L, int R, int p, int l, int r) {
-    if (L > r || l > R) return 0;
+    if (L > r || l > R) return INT_MAX;
     if (L <= l && r <= R) return tree[p];
     int m = l + r >> 1;
-    return max(query(L, R, p << 1, l, m), query(L, R, p << 1 | 1, m + 1, r));
+    return min(query(L, R, p << 1, l, m), query(L, R, p << 1 | 1, m + 1, r));
 }
