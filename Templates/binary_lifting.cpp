@@ -51,12 +51,12 @@ int pre(int v) {
 
 
 bool is_ancestor(int u, int v) {
-    return (tin[u] <= tin[v] && tin[v] <= tout[v]);
+    return (tin[u] <= tin[v] && tin[v] <= tout[u]);
 }
 
 int kth(int v, int k) {
     for (int bit = 0; bit < LOG; bit++) if ((1 << bit) & k)
-        v = up[v][k];
+        v = up[v][bit];
     return v;
 }
 
