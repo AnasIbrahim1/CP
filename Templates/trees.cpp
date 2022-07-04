@@ -42,7 +42,6 @@ int pre(int v) {
     return sub[v];
 }
 
-
 bool is_ancestor(int u, int v) {
-    return (tin[u] <= tin[v] && tin[v] <= tout[v]);
+    return (tin[u] <= tin[v] && tin[v] <= tout[u]);
 }
