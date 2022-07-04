@@ -16,9 +16,11 @@ bool is_ancestor(int u, int v);
 void add(int v) {
 
 }
+
 void rem(int v) {
 
 }
+
 void solve_queries(int v) {
 
 }
@@ -70,5 +72,5 @@ void dfs(int v, bool keep) {
 }
 
 bool is_ancestor(int u, int v) {
-    return (tin[u] <= tin[v] && tin[v] <= tout[v]);
+    return (tin[u] <= tin[v] && tin[v] <= tout[u]);
 }
