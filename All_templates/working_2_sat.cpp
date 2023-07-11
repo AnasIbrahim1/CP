@@ -55,7 +55,6 @@ struct two_sat { // zero based
         g[neg_a].push_back(b), g[neg_b].push_back(a);
         trans[b].push_back(neg_a), trans[a].push_back(neg_b);
     }
-
 };
 
 void solve() {

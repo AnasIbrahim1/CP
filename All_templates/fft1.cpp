@@ -48,7 +48,7 @@ namespace FFT {
 // careful, you may access something that is out of bounds to the vector, you then output 0 instead
 
 void solve() {
-        
+    
 }
 
 int main() {

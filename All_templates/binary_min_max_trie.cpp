@@ -49,19 +49,7 @@ struct binary_trie {
     }
 
     int query_min(int x) {
-        int cur_node = 0, sum = 0;
-        for (int bit = max_bits - 1; bit >= 0; bit--) {
-            int next_bit = (((1 << bit) & x) ? 1 : 0);
-            if (vis[cur_node][next_bit] == tc) {
-                sum += (1 << bit) * (next_bit);
-                cur_node = trie[cur_node][next_bit].first;
-            }
-            else {
-                sum += (1 << bit) * (1 - next_bit);
-                cur_node = trie[cur_node][1 - next_bit].first;
-            }
-        }
-        return (x ^ sum);
+        return INT_MAX ^ query_max(INT_MAX ^ x);
     }
 };
 

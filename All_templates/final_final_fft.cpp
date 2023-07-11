@@ -6,7 +6,7 @@ int tt, tc;
 template <class T> struct poly {
 	using cd = complex<double>;
 	const double PI = acos(-1);
-	const static int MX = 2 * (56e4 + 9);
+	const static int MX = 2 * (125e3 + 9);
 	cd pre_w[MX], pre_w_inv[MX];
 	bool is_w_const;
 	int pw_2;

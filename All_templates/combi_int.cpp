@@ -9,9 +9,9 @@ const int MOD = 998244353;
 const int N = 1e7 + 9;
 int fact[N], inv[N], inv_fact[N];
 int choose(int n, int r);
-int mul(int a, int b);
-int add(int a, int b);
-int sub(int a, int b);
+int mul(int a, int b) { return (a * 1LL * b) % MOD; }
+int add(int a, int b) { return (a + b) % MOD; }
+int sub(int a, int b) { return (a - b + MOD) % MOD; }
 int divide(int a, int b);
 int modpow(int n, int k);
 vector<int> ntt(vector<int> A, bool inv);
@@ -38,13 +38,6 @@ void init_fact() {
 	}
 }
 
-int mul(int a, int b) { return (a * 1LL * b) % MOD; }
-int add(int a, int b) { 
-	int res = a + b;
-	if (res >= MOD) res -= MOD;
-	return res;
-}
-int sub(int a, int b) { return (a - b + MOD) % MOD; }
 int divide(int a, int b) { 
 	int b_inv = (b < N ? inv[b] : modpow(b, MOD - 2));
 	return mul(a, b_inv);

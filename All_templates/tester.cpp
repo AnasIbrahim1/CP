@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#pragma GCC optimize ("O3")
+
 #define ll long long
 int tt, tc;
 
@@ -11,7 +11,8 @@ void solve() {
     string ac, wa;
     while (getline(AC, ac)) {
         getline(WA, wa);
-        if (ac != wa) return void(cout << "Wrong Answer\n");
+        if (ac != wa) return void(cout << "Wrong Answer at test " << tc << "\n");
+        tc++;
     }
     cout << "Accepted\n";
 }

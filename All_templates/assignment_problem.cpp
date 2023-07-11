@@ -95,8 +95,8 @@ template <class T> struct assignment_prob {
             }
         }
     }
-    ll cost() {
-        ll final_ans = 0;
+    T cost() {
+        T final_ans = 0;
         for (int i = 0; i < n; i++)
             final_ans += a[i][assignment[i]];
         return final_ans;

@@ -1,13 +1,13 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#pragma GCC optimize ("O3")
+
 #define ll long long
 int tt, tc;
 
 const int N = 1e5 + 9;
 vector<int> g[N];
-int p[N], depth[N], sub[N], tin[N], tout[N], vertex[N], n, timer;
+int p[N], sub[N], tin[N], tout[N], vertex[N], n, timer;
 
 int pre(int v = 1);
 void dfs(int v = 1, bool keep = 0);
@@ -48,7 +48,6 @@ int pre(int v) {
     vertex[tin[v]] = v;
     sub[v] = 1;
     for (auto& u : g[v]) if (u != p[v]) {
-        depth[u] = depth[v] + 1;
         p[u] = v;
         sub[v] += pre(u);
     }
@@ -57,14 +56,13 @@ int pre(int v) {
 }
 
 void dfs(int v, bool keep) {
-    int big_child = -1, big_size = 0;
-    for (auto& u : g[v]) if (u != p[v] && sub[u] > big_size) {
-        big_child = u;
-        big_size = sub[u];
-    }
-    for (auto& u : g[v]) if (u != p[v] && u != big_child) dfs(u, 0);
-    if (big_child != -1) dfs(big_child, 1);
-    for (auto& u : g[v]) if (u != p[v] && u != big_child) 
+    int big = -1;
+    for (auto& u : g[v]) if (u != p[v] && (big == -1 || sub[u] > sub[big]) )
+        big = u;
+
+    for (auto& u : g[v]) if (u != p[v] && u != big) dfs(u, 0);
+    if (big != -1) dfs(big, 1);
+    for (auto& u : g[v]) if (u != p[v] && u != big) 
         for (int i = tin[u]; i <= tout[u]; i++) add(vertex[i]);
     add(v);
     solve_queries(v);

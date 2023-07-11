@@ -1,0 +1,104 @@
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+int tt, tc;
+
+const ll HALF = 499122177;
+const ll MOD = 998244353;
+
+const int N = 1e7 + 9;
+ll fact[N], inv[N], inv_fact[N];
+ll choose(int n, int r);
+ll mul(ll a, ll b);
+ll add(ll a, ll b);
+ll sub(ll a, ll b);
+ll divide(ll a, ll b);
+ll modpow(ll n, ll k);
+vector<ll> ntt(vector<ll> a, bool inv);
+vector<ll> convolution(vector<ll> a, vector<ll> b, int d = -1);
+
+void solve() {
+}
+
+void init_fact();
+int main() {
+    ios::sync_with_stdio(0); cin.tie(0);
+    init_fact();
+    tt = 1, tc = 1; // cin >> tt;
+    while (tt--) solve(), tc++;
+}
+
+void init_fact() {
+    fact[0] = fact[1] = inv_fact[0] = inv_fact[1] = 1;
+	inv[1] = 1;
+    for (int i = 2; i < N; i++) {
+		fact[i] = mul(i, fact[i - 1]);
+		inv[i] = sub(0, mul(MOD / i, inv[MOD % i]));
+		inv_fact[i] = mul(inv_fact[i - 1], inv[i]);
+	}
+}
+
+ll mul(ll a, ll b) { return (a * 1LL * b) % MOD; }
+ll add(ll a, ll b) { 
+	ll res = a + b;
+	if (res >= MOD) res -= MOD;
+	return res;
+}
+ll sub(ll a, ll b) { return (a - b + MOD) % MOD; }
+ll divide(ll a, ll b) { 
+	ll b_inv = (b < N ? inv[b] : modpow(b, MOD - 2));
+	return mul(a, b_inv);
+}
+
+ll modpow(ll n, ll k) {
+    if (k == 0) return 1;
+    ll cur = modpow(n, k / 2); cur = mul(cur, cur);
+    return (k & 1 ? mul(cur, n) : cur);
+}
+
+ll choose(int n, int r) {
+    if (n < r) return 0;
+    if (r < 0 || n < 0) return 0;
+    return mul(fact[n], mul(inv_fact[n - r], inv_fact[r]));
+}
+
+vector<ll> ntt(vector<ll> a, bool inv) {
+	int n = a.size();
+	ll r = 3;
+	if (inv) r = divide(1, r);
+	vector<ll> b(n);
+	for (int i = n / 2; i > 0; i /= 2) {
+		ll z = modpow(r, (MOD - 1) / (n / i));
+		ll z2 = 1;
+		for (int j = 0; j < n; j += (i << 1)){
+			for (int k = 0; k < i; k++){
+				a[i + j + k] = mul(a[i + j + k], z2);
+				b[(j >> 1) + k] = add(a[j + k], a[i + j + k]);
+				b[(n >> 1) + (j >> 1) + k] = sub(a[j + k], a[i + j + k]);
+			}
+            z2 = mul(z2, z);
+		}
+		swap(a, b);
+	}
+	if (inv) {
+		int ninv = divide(1, n);
+		for (int i = 0; i < n; i++)
+			a[i] = mul(a[i], ninv);
+	}
+	return a;
+}
+
+vector<ll> convolution(vector<ll> a, vector<ll> b, int d) {
+	int deg = a.size() + b.size() - 1;
+	int n = 1;
+	while (n < deg) n <<= 1;
+	a.resize(n), b.resize(n);
+	a = ntt(a, false), b = ntt(b, false);
+	vector<ll> ans(n);
+	for (int i = 0; i < n; i++)
+        ans[i] = mul(a[i], b[i]);
+	ans = ntt(ans, true);
+	if (d != -1) deg = d;
+	ans.resize(deg);
+	return ans;
+}

@@ -3,7 +3,7 @@ using namespace std;
 #define ll long long
 int tt, tc;
 
-const int N = 1e7 + 9;
+const int N = 5e6 + 9;
 
 ll phi[N], f[N], cnt[N], spf[N], spf_pw[N];
 vector<int> primes;
