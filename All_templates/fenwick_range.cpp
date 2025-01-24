@@ -28,7 +28,6 @@ template <class T> struct fenwick_range {
         return sum(b1, i) * i - sum(b2, i); 
     }
     T range_sum(int l, int r) {
-        ++l, ++r;
         return pref_sum(r) - pref_sum(l - 1);
     }
 };
